@@ -1,0 +1,49 @@
+definitions:
+  post.createPostRequest:
+    properties:
+      caption:
+        type: string
+      media:
+        items:
+          $ref: '#/definitions/post.mediaDto'
+        type: array
+    type: object
+  post.mediaDto:
+    properties:
+      url:
+        type: string
+    type: object
+  post.postDto:
+    properties:
+      caption:
+        type: string
+      id:
+        type: integer
+      media:
+        items:
+          $ref: '#/definitions/post.mediaDto'
+        type: array
+    type: object
+info:
+  contact: {}
+  title: Instagram APIs
+  version: "1.0"
+paths:
+  /v1/posts:
+    post:
+      parameters:
+      - description: Create post payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/post.createPostRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/post.postDto'
+      summary: Create a new photo post, carousel post, or video post.
+      tags:
+      - Posts
+swagger: "2.0"

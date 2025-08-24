@@ -1,0 +1,78 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Instagram APIs",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/v1/posts": {
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Create a new photo post, carousel post, or video post.",
+                "parameters": [
+                    {
+                        "description": "Create post payload",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/post.createPostRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/post.postDto"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "post.createPostRequest": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "media": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/post.mediaDto"
+                    }
+                }
+            }
+        },
+        "post.mediaDto": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "post.postDto": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "media": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/post.mediaDto"
+                    }
+                }
+            }
+        }
+    }
+}
