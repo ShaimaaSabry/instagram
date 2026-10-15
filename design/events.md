@@ -16,7 +16,7 @@ POST /v1/posts → post.Controller → createpost.Interactor ──Publish(PostC
 | `event.PostCreated` | `internal/domain/event` | Plain data describing what happened |
 | `eventPublisher` interface | `internal/usecase/createpost` | What the use case needs; it does not know about the bus |
 | `eventbus.Bus` | `internal/infrastructure/eventbus` | In-memory pub/sub; each handler runs in its own goroutine, panics are recovered and logged |
-| `listener.PostListener` | `internal/interface/listener` | Inbound adapter, like a controller: converts the event into a command and calls a use case |
+| `listener.PostListener` | `internal/entrypoint/listener` | Inbound adapter, like a controller: converts the event into a command and calls a use case |
 | `fanoutpost.Interactor` | `internal/usecase/fanoutpost` | The reaction's logic (only logs until users and followers exist) |
 
 Listeners are registered explicitly in `cmd/main.go` with `eventbus.Subscribe`.

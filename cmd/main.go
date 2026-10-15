@@ -4,8 +4,8 @@ import (
 	"log/slog"
 
 	"github.com/ShaimaaSabry/instagram/internal/infrastructure/eventbus"
-	"github.com/ShaimaaSabry/instagram/internal/interface/controller/post"
-	"github.com/ShaimaaSabry/instagram/internal/interface/listener"
+	"github.com/ShaimaaSabry/instagram/internal/entrypoint/controller/post"
+	"github.com/ShaimaaSabry/instagram/internal/entrypoint/listener"
 	"github.com/ShaimaaSabry/instagram/internal/usecase/createpost"
 	"github.com/ShaimaaSabry/instagram/internal/usecase/fanoutpost"
 	"github.com/gin-gonic/gin"
