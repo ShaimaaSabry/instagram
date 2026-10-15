@@ -1,12 +1,24 @@
 package createpost
 
-import "github.com/ShaimaaSabry/instagram/internal/domain/model"
+import (
+	"time"
 
-type Interactor struct {
+	"github.com/ShaimaaSabry/instagram/internal/domain/event"
+	"github.com/ShaimaaSabry/instagram/internal/domain/model"
+)
+
+type eventPublisher interface {
+	Publish(e any)
 }
 
-func NewInteractor() *Interactor {
-	return &Interactor{}
+type Interactor struct {
+	eventPublisher eventPublisher
+}
+
+func NewInteractor(eventPublisher eventPublisher) *Interactor {
+	return &Interactor{
+		eventPublisher: eventPublisher,
+	}
 }
 
 type Media struct {
@@ -28,8 +40,17 @@ func (i *Interactor) Execute(command Command) (*model.Post, error) {
 		media,
 		command.Caption,
 	)
+	if err != nil {
+		return nil, err
+	}
 
-	return &post, err
+	i.eventPublisher.Publish(event.PostCreated{
+		PostID:     post.Id(),
+		Caption:    post.Caption(),
+		OccurredAt: time.Now(),
+	})
+
+	return &post, nil
 }
 
 func createMedia(command Command) ([]model.Media, error) {

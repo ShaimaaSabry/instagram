@@ -1,8 +1,13 @@
 package main
 
 import (
+	"log/slog"
+
+	"github.com/ShaimaaSabry/instagram/internal/infrastructure/eventbus"
 	"github.com/ShaimaaSabry/instagram/internal/interface/controller/post"
+	"github.com/ShaimaaSabry/instagram/internal/interface/listener"
 	"github.com/ShaimaaSabry/instagram/internal/usecase/createpost"
+	"github.com/ShaimaaSabry/instagram/internal/usecase/fanoutpost"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -20,7 +25,13 @@ func main() {
 }
 
 func dependencyInjection() *post.Controller {
-	createPostInteractor := createpost.NewInteractor()
+	bus := eventbus.New()
+
+	fanOutPostInteractor := fanoutpost.NewInteractor(slog.Default())
+	postListener := listener.NewPostListener(fanOutPostInteractor, slog.Default())
+	eventbus.Subscribe(bus, postListener.OnPostCreated)
+
+	createPostInteractor := createpost.NewInteractor(bus)
 
 	postController := post.NewController(createPostInteractor)
 

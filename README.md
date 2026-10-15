@@ -15,6 +15,10 @@ A Instagram-style platform built with clean architecture, domain-driven design (
 * Search: Find posts by keyword.
 * Follows & Feeds: Follow users and see their posts in your home feed.
 
+**Design docs:**
+
+* [Events](design/events.md): how domain events are published and handled, and planned improvements.
+
 ## Tech Stack
 
 - Go
